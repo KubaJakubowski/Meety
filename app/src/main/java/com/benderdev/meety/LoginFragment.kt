@@ -3,9 +3,14 @@ package com.benderdev.meety
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_login.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,7 +45,20 @@ class LoginFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val buttonLogin = getView()?.findViewById<Button>(R.id.buttonLogin)
+        val login = getView()?.findViewById<EditText>(R.id.login)
+        val password = getView()?.findViewById<EditText>(R.id.password)
 
+        buttonLogin?.setOnClickListener{
+            Log.d("Debug", "Login: ".plus(login?.text))
+            Log.d("Debug", "Password: ".plus(password?.text))
+        }
+
+
+
+        super.onViewCreated(view, savedInstanceState)
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
