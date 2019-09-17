@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
@@ -31,12 +34,25 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonLogin = view.findViewById<Button>(R.id.buttonLogin)
-        val login = view.findViewById<EditText>(R.id.login)
+        val email = view.findViewById<EditText>(R.id.email)
         val password = view.findViewById<EditText>(R.id.password)
 
         buttonLogin?.setOnClickListener {
-            Log.d("Debug", "Login: ".plus(login?.text))
+            Log.d("Debug", "Email: ".plus(email?.text))
             Log.d("Debug", "Password: ".plus(password?.text))
+
+            var auth = FirebaseAuth.getInstance()
+
+            auth.signInWithEmailAndPassword(email.text.toString().trim(), password.text.toString().trim())
+                .addOnCompleteListener(activity as FragmentActivity) { task ->
+                    if (task.isSuccessful) {
+                        Log.d("Debug", "SignInWithEmail:success")
+                        Toast.makeText(context, "Login success", Toast.LENGTH_LONG).show()
+                    } else {
+                        Log.d("Debug", "SignInWithEmail:failure", task.exception)
+                        Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show()
+                    }
+                }
 
         }
 
@@ -44,6 +60,7 @@ class LoginFragment : Fragment() {
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.main_content, RegisterFragment())
             transaction?.commit()
+
 
         }
 

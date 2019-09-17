@@ -1,5 +1,7 @@
 package com.benderdev.meety
 
+import com.google.firebase.auth.FirebaseAuth
+
 class Login {
     init {
         var userLogin = 0
@@ -8,7 +10,13 @@ class Login {
     }
 
 
-    fun login() {
-        //   FirebaseAuth.getInstance().sign
+    fun SingUp(email: String, password: String ) {
+
+        var auth = FirebaseAuth.getInstance()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener { type ->  }
+
     }
-}
+        //FirebaseAuth.getInstance().sign
+    }
+
