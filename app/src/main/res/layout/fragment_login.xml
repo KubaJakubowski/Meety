@@ -5,8 +5,8 @@
              android:layout_height="match_parent"
              tools:context=".LoginFragment">
 
-    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
-                                                 android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="match_parent">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
                 android:id="@+id/buttonLogin"
         />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
