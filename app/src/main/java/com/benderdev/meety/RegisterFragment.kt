@@ -30,34 +30,49 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonLogin = view.findViewById<Button>(R.id.buttonLogin)
-        val email = view.findViewById<EditText>(R.id.email)
-        val password = view.findViewById<EditText>(R.id.password)
-        val passwordRetype = view.findViewById<EditText>(R.id.passwordRetype)
+        val emailFiel = view.findViewById<EditText>(R.id.email)
+        val passwordField = view.findViewById<EditText>(R.id.password)
+        val passwordRetypeField = view.findViewById<EditText>(R.id.passwordRetype)
 
 
         buttonLogin?.setOnClickListener {
-            var toast = Toast.makeText(context, "Success", Toast.LENGTH_LONG)
+            val email = emailFiel.text.toString()
+            val password = passwordField.text.toString()
+            val passwordRetype = passwordRetypeField.text.toString()
+            val matchingPasswords = password.compareTo(passwordRetype)
 
-            Log.d("Debug", "Email: ".plus(email?.text))
-            Log.d("Debug", "Password: ".plus(password?.text))
-            Log.d("Debug", "Password retyped: ".plus(passwordRetype?.text))
-            val matchingPasswords = password.text.toString().compareTo(passwordRetype.text.toString())
+            Log.d("Debug", "Email: ".plus(email))
+            Log.d("Debug", "Password: ".plus(password))
+            Log.d("Debug", "Password retyped: ".plus(passwordRetype))
             Log.d("Debug", "Matching passwords: ".plus(matchingPasswords))
 
-            var auth = FirebaseAuth.getInstance()
-
-            auth.createUserWithEmailAndPassword(email.text.toString().trim(), password.text.toString().trim())
-                .addOnCompleteListener( activity as FragmentActivity) { task ->
-                    if (task.isSuccessful) {
-                        Log.d("Debug","createUserWithEmail:success")
-                        val user = auth.currentUser
-                        toast.show()
-                    } else {
-                        Log.d("Debug","createUserWithEmail:failure",task.exception)
-                        Toast.makeText(context, "Registration failed",Toast.LENGTH_LONG ).show()
+            //Registration Validation
+            //TODO Change all Toasts to subtext underneath the corresponding EditText fields
+            if (!(email).matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+\$".toRegex())){
+                Toast.makeText(context, "Provide valid email address", Toast.LENGTH_LONG).show()
+            }else if(!(password).matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}\$".toRegex())){
+                Toast.makeText(context, "Your password must be at least 8 characters long and need to contain one lowercase letter, one uppercase letter and digit", Toast.LENGTH_LONG).show()
+            }else if(matchingPasswords != 0){
+                Toast.makeText(context, "Your passwords does not match", Toast.LENGTH_LONG).show()
+            }else{
+                //Registration
+                var auth = FirebaseAuth.getInstance()
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(activity as FragmentActivity) { task ->
+                        if (task.isSuccessful) {
+                            Log.d("Debug", "createUserWithEmail:success")
+                            val user = auth.currentUser
+                            Toast.makeText(context, "Registration success", Toast.LENGTH_LONG).show()
+                        } else {
+                            Log.d("Debug", "createUserWithEmail:failure", task.exception)
+                            Toast.makeText(context, "Registration failed", Toast.LENGTH_LONG).show()
+                        }
                     }
-                }
-               
+            }
+
+
+
+
         }
 
         buttonSignUp.setOnClickListener {
