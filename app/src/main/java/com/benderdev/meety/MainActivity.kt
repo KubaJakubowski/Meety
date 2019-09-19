@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
-
+    private lateinit var auth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +21,18 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         */
 
-
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.main_content, RegisterFragment())
+
+        auth = FirebaseAuth.getInstance()
+
+        if(auth.currentUser == null ){
+            transaction.replace(R.id.main_content, LoginFragment())
+        }else{
+            transaction.replace(R.id.main_content, ProfileFragment())
+        }
         transaction.commit()
+
+
+
     }
 }

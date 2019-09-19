@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
 
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,25 +35,42 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonLogin = view.findViewById<Button>(R.id.buttonLogin)
-        val email = view.findViewById<EditText>(R.id.email)
-        val password = view.findViewById<EditText>(R.id.password)
+        val emailField = view.findViewById<EditText>(R.id.email)
+        val passwordField = view.findViewById<EditText>(R.id.password)
 
         buttonLogin?.setOnClickListener {
-            Log.d("Debug", "Email: ".plus(email?.text))
-            Log.d("Debug", "Password: ".plus(password?.text))
 
-            var auth = FirebaseAuth.getInstance()
+            val email = emailField.text.toString()
+            val password = emailField.text.toString()
 
-            auth.signInWithEmailAndPassword(email.text.toString().trim(), password.text.toString().trim())
-                .addOnCompleteListener(activity as FragmentActivity) { task ->
-                    if (task.isSuccessful) {
-                        Log.d("Debug", "SignInWithEmail:success")
-                        Toast.makeText(context, "Login success", Toast.LENGTH_LONG).show()
-                    } else {
-                        Log.d("Debug", "SignInWithEmail:failure", task.exception)
-                        Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show()
+            Log.d("Debug", "Email: ".plus(email))
+            Log.d("Debug", "Password: ".plus(password))
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Log.d("Debug", "SignInWithEmail:failed")
+                Toast.makeText(context, "Provide valid credentials", Toast.LENGTH_LONG).show()
+
+            } else {
+                auth = FirebaseAuth.getInstance()
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(activity as FragmentActivity) { task ->
+                        if (task.isSuccessful) {
+                            Log.d("Debug", "SignInWithEmail:success")
+                            Toast.makeText(context, "Login success", Toast.LENGTH_LONG).show()
+
+                            activity?.finish()
+                            startActivity(activity?.intent)
+                        } else {
+                            Log.d("Debug", "SignInWithEmail:failure", task.exception)
+                            Toast.makeText(
+                                context,
+                                "Login failed, user with following credentials does not exist",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
-                }
+            }
 
         }
 

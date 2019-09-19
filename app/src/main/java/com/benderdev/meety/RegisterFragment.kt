@@ -30,13 +30,13 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonLogin = view.findViewById<Button>(R.id.buttonLogin)
-        val emailFiel = view.findViewById<EditText>(R.id.email)
+        val emailField = view.findViewById<EditText>(R.id.email)
         val passwordField = view.findViewById<EditText>(R.id.password)
         val passwordRetypeField = view.findViewById<EditText>(R.id.passwordRetype)
 
 
         buttonLogin?.setOnClickListener {
-            val email = emailFiel.text.toString()
+            val email = emailField.text.toString()
             val password = passwordField.text.toString()
             val passwordRetype = passwordRetypeField.text.toString()
             val matchingPasswords = password.compareTo(passwordRetype)
@@ -63,6 +63,9 @@ class RegisterFragment : Fragment() {
                             Log.d("Debug", "createUserWithEmail:success")
                             val user = auth.currentUser
                             Toast.makeText(context, "Registration success", Toast.LENGTH_LONG).show()
+
+                            activity?.finish()
+                            startActivity(activity?.intent)
                         } else {
                             Log.d("Debug", "createUserWithEmail:failure", task.exception)
                             Toast.makeText(context, "Registration failed", Toast.LENGTH_LONG).show()
