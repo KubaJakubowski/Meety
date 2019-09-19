@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "632327428487",
+    "firebase_url": "https://benderdev-meety.firebaseio.com",
+    "project_id": "benderdev-meety",
+    "storage_bucket": "benderdev-meety.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632327428487:android:512c948945e35f90275b22",
+        "android_client_info": {
+          "package_name": "benderdev.meety"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632327428487-btpqc7hc92lg2ptiv20ct9acbmsi5jdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSP3In6v0iaYYzJ3lWqZunj8aGjIZQRYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632327428487-btpqc7hc92lg2ptiv20ct9acbmsi5jdt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
