@@ -13,6 +13,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_register.*
 
 
@@ -63,6 +65,14 @@ class RegisterFragment : Fragment() {
                             Log.d("Debug", "createUserWithEmail:success")
                             val user = auth.currentUser
                             Toast.makeText(context, "Registration success", Toast.LENGTH_LONG).show()
+
+                            val data = hashMapOf( "name" to "Unknown", "description" to "Unknown", "points" to "0")
+
+                            val firestore = FirebaseFirestore.getInstance()
+                            firestore.collection("users").document(user?.uid.toString())
+                                .set(data)
+                                .addOnSuccessListener { Log.d("Debug", "DocumentSnapshot successfully written!") }
+                                .addOnFailureListener { exc -> Log.d("Debug", "Error writing document", exc)}
 
                             activity?.finish()
                             startActivity(activity?.intent)

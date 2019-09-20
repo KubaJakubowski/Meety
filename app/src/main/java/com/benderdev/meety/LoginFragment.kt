@@ -41,7 +41,7 @@ class LoginFragment : Fragment() {
         buttonLogin?.setOnClickListener {
 
             val email = emailField.text.toString()
-            val password = emailField.text.toString()
+            val password = passwordField.text.toString()
 
             Log.d("Debug", "Email: ".plus(email))
             Log.d("Debug", "Password: ".plus(password))
